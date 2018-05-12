@@ -19,6 +19,12 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <style>
+        .card {
+            margin-top:  15px;
+            margin-bottom:  15px;
+        }
+    </style>
 </head>
 <body>
     <div id="app">
@@ -34,7 +40,7 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
-
+                        <li><a class="nav-link" href="/threads">All Threads</a></li>
                     </ul>
 
                     <!-- Right Side Of Navbar -->

@@ -17,13 +17,3 @@ php artisan migrate:refresh
 php artisan tinker
 $threads = factory('App\Thread', 50)->create();
 $threads->each(function ($thread) { factory('App\Reply', 10)->create(['thread_id' => $thread->id]); });
-
-===================================================
-
-# 4. A User May Respond to Threads
-
-1) Tests\Feature\ParticipateInForumTest::testUthenticatedUsersMayNotAddReplies
-Failed asserting that exception of type "Illuminate\Auth\AuthenticationException" is thrown.
-
-2) Tests\Feature\ParticipateInForumTest::testAnAuthenticatedUserMayParticipateInForumThreads
-Failed asserting that '<!DOCTYPE html>\n ...

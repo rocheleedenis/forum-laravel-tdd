@@ -17,3 +17,20 @@ php artisan migrate:refresh
 php artisan tinker
 $threads = factory('App\Thread', 50)->create();
 $threads->each(function ($thread) { factory('App\Reply', 10)->create(['thread_id' => $thread->id]); });
+
+===================================================
+
+# 07 Lesson
+On composer.json file add
+...
+"autoload-dev": {
+	...,
+	"files": [
+		"tests/utilities/functions.php"
+	]
+}
+
+And run
+composer dump-autoload
+
+See TestCase.php

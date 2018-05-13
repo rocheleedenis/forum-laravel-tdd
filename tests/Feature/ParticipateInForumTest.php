@@ -15,8 +15,8 @@ class ParticipateInForumTest extends TestCase
     {
         parent::setUp();
 
-        $this->thread = factory('App\Thread')->create();
-        $this->reply  = factory('App\Reply')->make();
+        $this->thread = create('App\Thread');
+        $this->reply  = make('App\Reply');
     }
 
     public function testUthenticatedUsersMayNotAddReplies()
@@ -31,7 +31,7 @@ class ParticipateInForumTest extends TestCase
 
     public function testAnAuthenticatedUserMayParticipateInForumThreads()
     {
-        $this->be($user = factory('App\User')->create());
+        $this->signIn();
 
         $this->post($this->thread->path() . '/replies', $this->reply->toArray());
 

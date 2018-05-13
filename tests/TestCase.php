@@ -8,7 +8,7 @@ abstract class TestCase extends BaseTestCase
 {
     use CreatesApplication;
 
-    protected function singIn($user = null)
+    protected function signIn($user = null)
     {
         $user = $user ?: create('App\User');
 

@@ -21,7 +21,8 @@ class ParticipateInForumTest extends TestCase
 
     public function testUthenticatedUsersMayNotAddReplies()
     {
-        $this->post($this->thread->path() . '/replies', $this->reply->toArray())
+        $this->withExceptionHandling()
+            ->post($this->thread->path() . '/replies', $this->reply->toArray())
             ->assertRedirect('/login');
     }
 

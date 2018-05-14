@@ -11,8 +11,12 @@ class CreateThreadsTest extends TestCase
 
     public function testGuestMayNotCreateThreads()
     {
-        $thread = make('App\Thread');
-        $this->post('/threads', $thread->toArray())
+        $this->withExceptionHandling()
+            ->get('/threads/create')
+            ->assertRedirect('/login');
+
+        $this->withExceptionHandling()
+            ->post('/threads')
             ->assertRedirect('/login');
     }
 
@@ -20,7 +24,7 @@ class CreateThreadsTest extends TestCase
     {
         $this->signIn();
 
-        $thread = make('App\Thread');
+        $thread = create('App\Thread');
         $this->post('/threads', $thread->toArray());
 
         $this->get($thread->path())

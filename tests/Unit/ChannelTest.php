@@ -10,7 +10,7 @@ class ChannelTest extends TestCase
     use DatabaseMigrations;
 
     /**
-     * A basic test example.
+     * Testa se um channel contem apenas seus threads.
      *
      * @return void
      */

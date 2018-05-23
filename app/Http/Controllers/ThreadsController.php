@@ -16,10 +16,18 @@ class ThreadsController extends Controller
     public function index(Channel $channel)
     {
         if ($channel->exists) {
-            $threads   = $channel->threads;
+            $threads = $channel->threads();
         } else {
-            $threads = Thread::all();
+            $threads = Thread::query();
         }
+
+        if ($username = request('by')) {
+            $user = \App\User::where('name', $username)->firstOrFail();
+
+            $threads->where('user_id', $user->id);
+        }
+
+        $threads = $threads->get();
 
         return view('threads.index', compact('threads'));
     }

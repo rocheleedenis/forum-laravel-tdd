@@ -47,6 +47,11 @@ class ReadThreadsTest extends TestCase
             ->assertDontSee($threadNotInChannel->title);
     }
 
+    /**
+     * Testa se um usuário consegue filtrar os threads pelo seu nome.
+     *
+     * @return void
+     */
     public function testAUserCanFilterThreadsByAnyUsername()
     {
         $this->signIn(create('App\User', ['name' => 'JohnDoe']));

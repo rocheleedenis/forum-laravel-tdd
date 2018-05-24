@@ -16,19 +16,7 @@ class ThreadsController extends Controller
 
     public function index(Channel $channel, ThreadFilters $filters)
     {
-        if ($channel->exists) {
-            $threads = $channel->threads();
-        } else {
-            $threads = Thread::query();
-        }
-
-        // if ($username = request('by')) {
-        //     $user = \App\User::where('name', $username)->firstOrFail();
-
-        //     $threads->where('user_id', $user->id);
-        // }
-
-        $threads = $threads->filter($filters)->get();
+        $threads = $this->getThreads($channel, $filters);
 
         return view('threads.index', compact('threads'));
     }
@@ -59,5 +47,16 @@ class ThreadsController extends Controller
     public function show($channelId, Thread $thread)
     {
         return view('threads.show', compact('thread'));
+    }
+
+    public function getThreads($channel, $filters)
+    {
+        $threads = Thread::filter($filters);
+
+        if ($channel->exists) {
+            $threads = $channel->threads();
+        }
+
+        return $threads->get();
     }
 }

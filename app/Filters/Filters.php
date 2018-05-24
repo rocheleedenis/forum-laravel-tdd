@@ -25,25 +25,17 @@ abstract class Filters
     {
         $this->builder = $builder;
 
-        foreach ($this->filters as $filter) {
-            if (!$this->hasFilter($filter)) {
-                return;
+        foreach ($this->getFilters() as $filter => $value) {
+            if (method_exists($this, $filter)) {
+                $this->$filter($value);
             }
-
-            $this->$filter($this->request->$filter);
         }
 
         return $this->builder;
     }
 
-    /**
-     * A pesquisa tem um filtro.
-     *
-     * @param $filter
-     * @return bool
-     */
-    protected function hasFilter($filter) : bool
+    protected function getFilters()
     {
-        return method_exists($this, $filter) && $this->request->has($filter);
+        return $this->request->only($this->filters);
     }
 }

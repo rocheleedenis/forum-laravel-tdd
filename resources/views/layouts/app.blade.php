@@ -20,6 +20,16 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <style>
+        body {
+            margin-bottom: 100px;
+        }
+        .level {
+            display: flex;
+            align-items: center;
+        }
+        .flex {
+            flex: 1;
+        }
         .card {
             margin-top:  15px;
             margin-bottom:  15px;
@@ -46,6 +56,7 @@
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item" href="/threads">All Threads</a>
+                                <a class="dropdown-item" href="/threads?popularity=1">Popular Threads</a>
                                 @if(auth()->check())
                                     <a class="dropdown-item" href="/threads?by={{ auth()->user()->name }}">My Threads</a>
                                 @endif

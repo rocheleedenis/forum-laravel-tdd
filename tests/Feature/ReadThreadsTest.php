@@ -63,4 +63,22 @@ class ReadThreadsTest extends TestCase
             ->assertSee($threadByJohn->title)
             ->assertDontSee($threadNotBryJohn->title);
     }
+
+    /**
+     * Testa se um usuário consegue filtrar os threads pela quantidade de respostas.
+     * @return void
+     */
+    public function testAUserCanFilterThreadsByPopularity()
+    {
+        $threadWithNoReplies = $this->thread;
+
+        $threadWithTwoReplies = create('App\Thread');
+        create('App\Reply', ['thread_id' => $threadWithTwoReplies->id], 2);
+
+        $threadWithThreeReplies = create('App\Thread');
+        create('App\Reply', ['thread_id' => $threadWithThreeReplies->id], 3);
+
+        $response = $this->getJson('threads?popularity=1')->json();
+        $this->assertEquals([3, 2, 0], array_column($response, 'replies_count'));
+    }
 }

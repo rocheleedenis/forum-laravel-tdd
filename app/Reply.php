@@ -12,4 +12,23 @@ class Reply extends Model
     {
         return $this->belongsTo('App\User', 'user_id');
     }
+
+    public function favorites()
+    {
+        return $this->morphMany('App\Favorite', 'favorited');
+    }
+
+    /**
+     * Favorita o reply apenas uma vez.
+     *
+     * @return type
+     */
+    public function favorite()
+    {
+        $attributtes = ['user_id' => auth()->id()];
+
+        if (!$this->favorites()->where($attributtes)->exists()) {
+            return $this->favorites()->create($attributtes);
+        }
+    }
 }

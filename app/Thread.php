@@ -19,7 +19,9 @@ class Thread extends Model
 
     public function replies()
     {
-        return $this->hasMany('App\Reply');
+        return $this->hasMany('App\Reply')
+            ->withCount('favorites')
+            ->with('owner');
     }
 
     public function creator()

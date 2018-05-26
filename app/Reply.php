@@ -6,34 +6,26 @@ use Illuminate\Database\Eloquent\Model;
 
 class Reply extends Model
 {
+    use Favoritable;
+    /**
+     * Don't auto-apply mass assignment protection.
+     *
+     * @var array
+     */
     protected $guarded = [];
 
+    /**
+     * @var array
+     */
+    protected $with = ['owner', 'favorites'];
+
+    /**
+     * A reply has a owner.
+     *
+     * @return \Illuminate\Database\Eloquent\Relation\BelongsTo
+     */
     public function owner()
     {
         return $this->belongsTo('App\User', 'user_id');
-    }
-
-    public function favorites()
-    {
-        return $this->morphMany('App\Favorite', 'favorited');
-    }
-
-    /**
-     * Favorita o reply apenas uma vez.
-     *
-     * @return type
-     */
-    public function favorite()
-    {
-        $attributtes = ['user_id' => auth()->id()];
-
-        if (!$this->favorites()->where($attributtes)->exists()) {
-            return $this->favorites()->create($attributtes);
-        }
-    }
-
-    public function isFavorited()
-    {
-        return $this->favorites()->where('user_id', auth()->id())->exists();
     }
 }

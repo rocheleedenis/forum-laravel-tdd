@@ -9,6 +9,13 @@ class CreateThreadsTest extends TestCase
 {
     use DatabaseMigrations;
 
+    protected function setUp()
+    {
+        parent::setUp();
+
+        $this->withoutExceptionHandling();
+    }
+
     public function testGuestMayNotCreateThreads()
     {
         $this->withExceptionHandling()

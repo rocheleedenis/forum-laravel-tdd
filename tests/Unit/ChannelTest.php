@@ -9,6 +9,13 @@ class ChannelTest extends TestCase
 {
     use DatabaseMigrations;
 
+    protected function setUp()
+    {
+        parent::setUp();
+
+        $this->withoutExceptionHandling();
+    }
+
     /**
      * Testa se um channel contem apenas seus threads.
      *

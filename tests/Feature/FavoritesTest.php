@@ -9,9 +9,17 @@ class FavoritesTest extends TestCase
 {
     use DatabaseMigrations;
 
+    protected function setUp()
+    {
+        parent::setUp();
+
+        $this->withoutExceptionHandling();
+    }
+
     public function testGuesCanFavoriteAnything()
     {
-        $this->post('replies/1/favorites')
+        $this->withExceptionHandling()
+            ->post('replies/1/favorites')
             ->assertRedirect('/login');
     }
 

@@ -13,6 +13,8 @@ class ReadThreadsTest extends TestCase
     {
         parent::setUp();
 
+        $this->withoutExceptionHandling();
+
         $this->thread = create('App\Thread');
     }
 

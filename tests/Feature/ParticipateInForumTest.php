@@ -15,6 +15,8 @@ class ParticipateInForumTest extends TestCase
     {
         parent::setUp();
 
+        $this->withoutExceptionHandling();
+
         $this->thread = create('App\Thread');
         $this->reply  = make('App\Reply');
     }

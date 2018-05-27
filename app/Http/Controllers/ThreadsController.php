@@ -9,11 +9,23 @@ use App\Filters\ThreadFilters;
 
 class ThreadsController extends Controller
 {
+    /**
+     * ThreadsController constructor.
+     *
+     * @return void
+     */
     public function __construct()
     {
         $this->middleware('auth')->except(['index', 'show']);
     }
 
+    /**
+     * Display a listing of the threads.
+     *
+     * @param Channel $channel
+     * @param ThreadFilters $filters
+     * @return \Iluminate\Http\Response
+     */
     public function index(Channel $channel, ThreadFilters $filters)
     {
         $threads = $this->getThreads($channel, $filters);
@@ -25,11 +37,22 @@ class ThreadsController extends Controller
         return view('threads.index', compact('threads'));
     }
 
+    /**
+     * Show the form for creating a new thread.
+     *
+     * @return \Iluminate\Http\Response
+     */
     public function create()
     {
         return view('threads.create');
     }
 
+    /**
+     * Store a newly created thread in storege.
+     *
+     * @param Request $request
+     * @return \Iluminate\Http\Response
+     */
     public function store(Request $request)
     {
         $this->validate($request, [
@@ -48,6 +71,13 @@ class ThreadsController extends Controller
         return redirect($thread->path());
     }
 
+    /**
+     * Show all the threads.
+     *
+     * @param integer $request
+     * @param Thread $thread
+     * @return \Iluminate\Http\Response
+     */
     public function show($channelId, Thread $thread)
     {
         $replies = $thread->replies()->paginate(15);

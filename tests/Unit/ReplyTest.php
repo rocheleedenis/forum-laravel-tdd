@@ -9,6 +9,13 @@ class ReplyTest extends TestCase
 {
     use DatabaseMigrations;
 
+    protected function setUp()
+    {
+        parent::setUp();
+
+        $this->withoutExceptionHandling();
+    }
+
     public function testItHasAnOwner()
     {
         $reply = create('App\Reply');

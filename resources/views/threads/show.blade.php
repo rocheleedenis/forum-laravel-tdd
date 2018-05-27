@@ -6,10 +6,12 @@
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-header">
-                        <a href="#" title="Ver perfil">
-                            {{ $thread->creator->name }}
-                        </a> posted: {{ $thread->created_at->diffForHumans() }}...
-                        {{ $thread->title }}
+                        <h5>
+                            <a href="{{ route('profile', $thread->creator->name) }}" title="See perfil">
+                                {{ $thread->creator->name }}
+                            </a> posted {{ $thread->created_at->diffForHumans() }}:
+                            {{ $thread->title }}
+                        </h5>
                     </div>
 
                     <div class="card-body">
@@ -44,10 +46,11 @@
 
                     <div class="card-body">
                         <p>
-                            This thread was publish {{ $thread->created_at->diffForHumans() }} by <a href="#" title="See perfil">{{ $thread->creator->name }}</a> and currently has {{ $thread->replies_count }} {{ str_plural('comment', $thread->replies_count) }}.
+                            This thread was publish {{ $thread->created_at->diffForHumans() }} by <a href="{{ route('profile', $thread->creator->name) }}" title="See perfil">{{ $thread->creator->name }}</a> and currently has {{ $thread->replies_count }} {{ str_plural('comment', $thread->replies_count) }}.
                         </p>
                     </div>
                 </div>
+            </div>
         </div>
     </div>
 @endsection

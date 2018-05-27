@@ -26,4 +26,24 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    /**
+     * Get the route key name for laravel.
+     *
+     * @return string
+     */
+    public function getRouteKeyName()
+    {
+        return 'name';
+    }
+
+    /**
+     * A user may has threads.
+     *
+     * @return \Illuminate\Database\Eloquent\Relation\HasMany
+     */
+    public function threads()
+    {
+        return $this->hasMany('App\Thread')->latest();
+    }
 }

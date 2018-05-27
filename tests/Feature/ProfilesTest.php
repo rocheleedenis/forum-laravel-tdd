@@ -27,12 +27,16 @@ class ProfilesTest extends TestCase
             ->assertSee($user->name);
     }
 
+    /**
+     * @test
+     */
     public function testProfilesDisplayAllThreadsCreatedByTheAssiciatedUser()
     {
-        $user   = create('App\User');
-        $thread = create('App\Thread', ['user_id' => $user->id]);
+        $this->signIn();
 
-        $this->get("/profiles/{$user->name}")
+        $thread = create('App\Thread', ['user_id' => auth()->id()]);
+
+        $this->get('/profiles/' . auth()->user()->name)
             ->assertSee($thread->title)
             ->assertSee($thread->body);
     }

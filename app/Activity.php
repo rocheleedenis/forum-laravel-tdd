@@ -22,4 +22,21 @@ class Activity extends Model
     {
         return $this->morphTo();
     }
+
+    /**
+     * Get the activities from the user.
+     *
+     * @param User $user
+     * @return Activity
+     */
+    public static function feed($user, $take = 50)
+    {
+        return static::where('user_id', $user->id)
+            ->latest()
+            ->with('subject')
+            ->take($take)->get()
+            ->groupBy(function ($activity) {
+                return $activity->created_at->format('Y-m-d');
+            });
+    }
 }

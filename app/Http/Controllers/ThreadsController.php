@@ -72,17 +72,35 @@ class ThreadsController extends Controller
     }
 
     /**
-     * Show all the threads.
+     * Display the specified thread.
      *
-     * @param integer $request
+     * @param integer $channel
      * @param Thread $thread
      * @return \Iluminate\Http\Response
      */
-    public function show($channelId, Thread $thread)
+    public function show($channel, Thread $thread)
     {
         $replies = $thread->replies()->paginate(15);
 
         return view('threads.show', compact('thread', 'replies'));
+    }
+
+    /**
+     * Delete the thread and their replies.
+     *
+     * @param type $channel
+     * @param Thread $thread
+     * @return \Iluminate\Http\Response
+     */
+    public function destroy($channel, Thread $thread)
+    {
+        $thread->delete();
+
+        if (request()->wantsJson()) {
+            return response([], 204);
+        }
+
+        return redirect('/threads');
     }
 
     /**

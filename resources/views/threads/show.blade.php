@@ -6,11 +6,20 @@
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-header">
-                        <h5>
-                            <a href="{{ route('profile', $thread->creator->name) }}" title="See perfil">
-                                {{ $thread->creator->name }}
-                            </a> posted {{ $thread->created_at->diffForHumans() }}:
-                            {{ $thread->title }}
+                        <h5 class="level">
+                            <div class="flex">
+                                <a href="{{ route('profile', $thread->creator->name) }}" title="See perfil">
+                                    {{ $thread->creator->name }}
+                                </a> posted {{ $thread->created_at->diffForHumans() }}:
+                                {{ $thread->title }}
+                            </div>
+                            @if(Auth::check())
+                                <form action="{{ $thread->path() }}" method="POST">
+                                    @csrf
+                                    {{ method_field('DELETE') }}
+                                    <button type="submit" class="btn btn-link">Delete Thread</button>
+                                </form>
+                            @endif
                         </h5>
                     </div>
 

@@ -80,7 +80,7 @@ class Thread extends Model
     }
 
     /**
-     * A thread is assogned a channel.
+     * A thread is assigned a channel.
      *
      * @return \Illuminate\Database\Eloquent\Relation\BelongsTo
      */

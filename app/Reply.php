@@ -28,4 +28,14 @@ class Reply extends Model
     {
         return $this->belongsTo('App\User', 'user_id');
     }
+
+    /**
+     * A reply belongs to a thread.
+     *
+     * @return \Illuminate\Database\Eloquent\Relation\BelongsTo
+     */
+    public function thread()
+    {
+        return $this->belongsTo('App\Thread');
+    }
 }

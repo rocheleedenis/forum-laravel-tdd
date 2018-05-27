@@ -88,12 +88,14 @@ class ThreadsController extends Controller
     /**
      * Delete the thread and their replies.
      *
-     * @param type $channel
+     * @param string $channel
      * @param Thread $thread
      * @return \Iluminate\Http\Response
      */
     public function destroy($channel, Thread $thread)
     {
+        $this->authorize('update', $thread);
+
         $thread->delete();
 
         if (request()->wantsJson()) {

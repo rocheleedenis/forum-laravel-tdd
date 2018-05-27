@@ -10,16 +10,16 @@
                             <div class="flex">
                                 <a href="{{ route('profile', $thread->creator->name) }}" title="See perfil">
                                     {{ $thread->creator->name }}
-                                </a> posted {{ $thread->created_at->diffForHumans() }}:
+                                </a> posted:
                                 {{ $thread->title }}
                             </div>
-                            @if(Auth::check())
+                            @can ('update', $thread)
                                 <form action="{{ $thread->path() }}" method="POST">
                                     @csrf
                                     {{ method_field('DELETE') }}
                                     <button type="submit" class="btn btn-link">Delete Thread</button>
                                 </form>
-                            @endif
+                            @endcan
                         </h5>
                     </div>
 

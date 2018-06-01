@@ -25,7 +25,7 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        // Authorize the user Rochele to edit all threads.
+        // Authorize the user Rochele to do everything.
         Gate::before(function ($user) {
             // if ($user->name === 'Rochele') {
             //     return true;

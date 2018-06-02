@@ -38,6 +38,19 @@ class RepliesController extends Controller
     }
 
     /**
+     * Update the reply.
+     *
+     * @param Reply $reply
+     * @return \Iluminate\Http\Response
+     */
+    public function update(Reply $reply)
+    {
+        $this->authorize('update', $reply);
+
+        $reply->update(request(['body']));
+    }
+
+    /**
      * Delete the reply.
      *
      * @param string $channel

@@ -79,10 +79,43 @@ class ParticipateInForumTest extends TestCase
     public function testAuthorizedUsersCanDeleteReplies()
     {
         $this->signIn();
+
         $reply = create('App\Reply', ['user_id' => auth()->id()]);
 
         $this->delete("/replies/{$reply->id}")->assertStatus(302);
 
         $this->assertDatabaseMissing('replies', ['id' => $reply->id]);
+    }
+
+    /**
+         * @test
+         */
+    public function testAuthorizedUsersCannotUpdateReplies()
+    {
+        $this->withExceptionHandling();
+
+        $reply = create('App\Reply');
+
+        $this->patch("/replies/{$reply->id}")
+            ->assertRedirect('login');
+
+        $this->signIn()
+            ->patch("/replies/{$reply->id}")
+            ->assertStatus(403);
+    }
+
+    /**
+     * @test
+     */
+    public function testAuthorizedUsersCanUpdateReplies()
+    {
+        $this->signIn();
+
+        $reply = create('App\Reply', ['user_id' => auth()->id()]);
+
+        $updateReply = 'You been changed, fool.';
+        $this->patch("/replies/{$reply->id}", ['body' => $updateReply]);
+
+        $this->assertDatabaseHas('replies', ['id' => $reply->id, 'body' => $updateReply]);
     }
 }

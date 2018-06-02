@@ -20,20 +20,12 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <style>
-        body {
-            margin-bottom: 100px;
-        }
-        .level {
-            display: flex;
-            align-items: center;
-        }
-        .flex {
-            flex: 1;
-        }
-        .card {
-            margin-top:  15px;
-            margin-bottom:  15px;
-        }
+        body { margin-bottom: 100px; }
+        .level { display: flex; align-items: center; }
+        .flex { flex: 1; }
+        .card { margin-top:  15px; margin-bottom:  15px; }
+        .mr-1 { margin-right: 1em !important; }
+        [v-cloak] { display: none; }
     </style>
 </head>
 <body>

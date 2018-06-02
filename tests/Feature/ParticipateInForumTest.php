@@ -21,6 +21,9 @@ class ParticipateInForumTest extends TestCase
         $this->reply  = make('App\Reply');
     }
 
+    /**
+     * @test
+     */
     public function testUthenticatedUsersMayNotAddReplies()
     {
         $this->withExceptionHandling()
@@ -28,6 +31,9 @@ class ParticipateInForumTest extends TestCase
             ->assertRedirect('/login');
     }
 
+    /**
+     * @test
+     */
     public function testAnAuthenticatedUserMayParticipateInForumThreads()
     {
         $this->signIn();
@@ -38,6 +44,9 @@ class ParticipateInForumTest extends TestCase
             ->assertSee($this->reply->body);
     }
 
+    /**
+     * @test
+     */
     public function testAReplyRequiresABody()
     {
         $this->withExceptionHandling()->signIn();
@@ -46,5 +55,34 @@ class ParticipateInForumTest extends TestCase
 
         $this->post($this->thread->path() . '/replies', $this->reply->toArray())
             ->assertSessionHasErrors('body');
+    }
+
+    /**
+     * @test
+     */
+    public function testUthenticatedUsersCannotDeleteReplies()
+    {
+        $reply = create('App\Reply');
+
+        $this->withExceptionHandling()
+            ->delete("/replies/{$reply->id}")
+            ->assertRedirect('login');
+
+        $this->signIn()
+            ->delete("/replies/{$reply->id}")
+            ->assertStatus(403);
+    }
+
+    /**
+     * @test
+     */
+    public function testAuthorizedUsersCanDeleteReplies()
+    {
+        $this->signIn();
+        $reply = create('App\Reply', ['user_id' => auth()->id()]);
+
+        $this->delete("/replies/{$reply->id}")->assertStatus(302);
+
+        $this->assertDatabaseMissing('replies', ['id' => $reply->id]);
     }
 }

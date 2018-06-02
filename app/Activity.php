@@ -16,7 +16,7 @@ class Activity extends Model
     /**
      * Description
      *
-     * @return lluminate\Database\Eloquent\Relation\MorphTo
+     * @return \Iluminate\Database\Eloquent\Relations\MorphTo
      */
     public function subject()
     {

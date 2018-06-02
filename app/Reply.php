@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Reply extends Model
 {
     use Favoritable, RecordsActivity;
+
     /**
      * Don't auto-apply mass assignment protection.
      *
@@ -37,5 +38,15 @@ class Reply extends Model
     public function thread()
     {
         return $this->belongsTo('App\Thread');
+    }
+
+    /**
+     * Get a string path for the thread.
+     *
+     * @return string
+     */
+    public function path()
+    {
+        return $this->thread->path() . "#reply-{$this->id}";
     }
 }

@@ -11,7 +11,7 @@
                                 <a href="{{ route('profile', $thread->creator->name) }}" title="See perfil">
                                     {{ $thread->creator->name }}
                                 </a> posted:
-                                {{ $thread->title }}
+                                <strong>{{ $thread->title }}</strong>
                             </div>
                             @can ('update', $thread)
                                 <form action="{{ $thread->path() }}" method="POST">

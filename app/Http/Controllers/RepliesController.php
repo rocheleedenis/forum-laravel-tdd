@@ -51,11 +51,10 @@ class RepliesController extends Controller
     }
 
     /**
-     * Delete the reply.
+     * Delete the given reply.
      *
-     * @param string $channel
-     * @param Thread $thread
-     * @return \Iluminate\Http\Response
+     * @param Reply $reply
+     * @return \Iluminate\Http\RedirectResponse
      */
     public function destroy(Reply $reply)
     {

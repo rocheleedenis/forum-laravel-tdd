@@ -16,9 +16,18 @@ class Reply extends Model
     protected $guarded = [];
 
     /**
+     * The relations to eager load on every query.
+     *
      * @var array
      */
     protected $with = ['owner', 'favorites'];
+
+    /**
+     * Make visible the attribute on to instance the reply.
+     *
+     * @var array
+     */
+    protected $appends = ['favoritesCount', 'isFavorited'];
 
     /**
      * A reply has a owner.

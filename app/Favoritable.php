@@ -41,6 +41,16 @@ trait Favoritable
     }
 
     /**
+     * Definition
+     *
+     * @return boolean
+     */
+    public function getIsFavoritedAttribute()
+    {
+        return $this->isFavorited();
+    }
+
+    /**
      * Get the number of favorites of the current reply.
      *
      * @return integer
@@ -48,5 +58,17 @@ trait Favoritable
     public function getFavoritesCountAttribute()
     {
         return $this->favorites->count();
+    }
+
+    /**
+     * Description
+     *
+     * @return type
+     */
+    public function unfavorite()
+    {
+        $attributtes = ['user_id' => auth()->id()];
+
+        $this->favorites()->where($attributtes)->delete();
     }
 }

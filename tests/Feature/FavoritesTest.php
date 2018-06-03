@@ -16,6 +16,9 @@ class FavoritesTest extends TestCase
         $this->withoutExceptionHandling();
     }
 
+    /**
+     * @test
+     */
     public function testGuesCanFavoriteAnything()
     {
         $this->withExceptionHandling()
@@ -23,6 +26,9 @@ class FavoritesTest extends TestCase
             ->assertRedirect('/login');
     }
 
+    /**
+     * @test
+     */
     public function testAnAuthenticatedUserCanFavoriteAnyReply()
     {
         $this->signIn();
@@ -34,6 +40,9 @@ class FavoritesTest extends TestCase
         $this->assertCount(1, $reply->favorites);
     }
 
+    /**
+     * @test
+     */
     public function testAnAuthenticatedUserMayOnlyFavoriteAReplyOnce()
     {
         $this->signIn();
@@ -47,5 +56,21 @@ class FavoritesTest extends TestCase
             $this->fail('Did not expect to insert the same record set twice.');
         }
         $this->assertCount(1, $reply->favorites);
+    }
+
+    /**
+     * @test
+     */
+    public function testAnAuthenticatedUserCanUnfavoriteAnyReply()
+    {
+        $this->signIn();
+
+        $reply = create('App\Reply');
+
+        $reply->favorite();
+
+        $this->delete('replies/' . $reply->id . '/favorites');
+
+        $this->assertCount(0, $reply->favorites);
     }
 }

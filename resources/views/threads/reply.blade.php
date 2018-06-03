@@ -8,12 +8,7 @@
 			        </a> said {{ $reply->created_at->diffForHumans() }}...
 			    </span>
 		        <div>
-		        	<form action="/replies/{{ $reply->id }}/favorites" method="POST">
-		        		@csrf
-		        		<button type="submit" class="btn btn-default" {{ $reply->isFavorited() ? 'disabled' : '' }}>
-		        			{{ $reply->favorites_count }} {{ 'Favorite', $reply->favorites_count }}
-		        		</button>
-		        	</form>
+		        	<favorite :reply="{{ $reply }}"></favorite>
 		        </div>
 		    </div>
 	    </div>

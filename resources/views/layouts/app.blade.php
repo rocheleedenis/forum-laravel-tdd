@@ -38,5 +38,6 @@
 
         <flash message="{{ session('flash') }}"></flash>
     </div>
+    <script src="/vendor/fontawesome/fontawesome-all.min.js"></script>
 </body>
 </html>

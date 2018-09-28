@@ -32,7 +32,7 @@
 
                     <replies :data="{{ $thread->replies }}" @removed="repliesCount--"></replies>
 
-                    {{ $replies->links() }} -->
+                    {{--{{ $replies->links() }}--}}
 
                     @if (auth()->check())
                         <form action="{{ $thread->path() . '/replies' }}" method="post" style="margin: 0 15px;">

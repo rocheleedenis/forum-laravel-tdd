@@ -40,6 +40,11 @@ if (token) {
 
 window.Vue = require('vue');
 
+Vue.prototype.authorize = function (handler) {
+	// Additional admin privileges.
+	return handler(window.App.user);
+}
+
 window.events = new Vue();
 
 window.flash = function (message) {

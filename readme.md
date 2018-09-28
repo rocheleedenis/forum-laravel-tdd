@@ -15,8 +15,6 @@ php artisan make:model Reply -mr
 mysql -uroot -p // create database forum
 php artisan migrate:refresh
 php artisan tinker
-$threads = factory('App\Thread', 50)->create();
-$threads->each(function ($thread) { factory('App\Reply', 10)->create(['thread_id' => $thread->id]); });
 
 $faker = Faker\Factory::create();
 

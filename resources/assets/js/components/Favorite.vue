@@ -11,7 +11,7 @@
 
 		data() {
 			return {
-				count: this.reply.favoritesCount,
+				count : this.reply.favoritesCount,
 				active: this.reply.isFavorited
 			}
 		},
@@ -20,6 +20,7 @@
 			classes() {
 				return [
 					'btn',
+					'btn-sm',
 					this.active ? 'btn-primary' : 'btn-default'
 				];
 			},

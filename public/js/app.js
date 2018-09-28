@@ -25021,6 +25021,11 @@ if (token) {
 
 window.Vue = __webpack_require__(12);
 
+Vue.prototype.authorize = function (handler) {
+  // Additional admin privileges.
+  return handler(window.App.user);
+};
+
 window.events = new Vue();
 
 window.flash = function (message) {
@@ -48036,7 +48041,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             return window.App.signedIn;
         },
         canUpdate: function canUpdate() {
-            return window.App.user.id == this.data.user_id;
+            var _this = this;
+
+            return this.authorize(function (user) {
+                return _this.data.user_id == user.id;
+            });
         }
     },
 
@@ -48132,7 +48141,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 	computed: {
 		classes: function classes() {
-			return ['btn', this.active ? 'btn-primary' : 'btn-default'];
+			return ['btn', 'btn-sm', this.active ? 'btn-primary' : 'btn-default'];
 		},
 		endpoint: function endpoint() {
 			return '/replies/' + this.reply.id + '/favorites';
@@ -48247,7 +48256,7 @@ var render = function() {
             _c(
               "button",
               {
-                staticClass: "btn btn-xs btn-primary",
+                staticClass: "btn btn-sm btn-primary",
                 on: { click: _vm.update }
               },
               [_vm._v("Update")]
@@ -48256,7 +48265,7 @@ var render = function() {
             _c(
               "button",
               {
-                staticClass: "btn btn-xs btn-link",
+                staticClass: "btn btn-sm btn-link",
                 on: {
                   click: function($event) {
                     _vm.editing = false
@@ -48274,7 +48283,7 @@ var render = function() {
           _c(
             "button",
             {
-              staticClass: "btn btn-xs mr-1",
+              staticClass: "btn btn-sm mr-1",
               on: {
                 click: function($event) {
                   _vm.editing = true
@@ -48287,7 +48296,7 @@ var render = function() {
           _c(
             "button",
             {
-              staticClass: "btn btn-xs btn-danger mr-1",
+              staticClass: "btn btn-sm btn-danger mr-1",
               on: { click: _vm.destroy }
             },
             [_vm._v("Delete")]

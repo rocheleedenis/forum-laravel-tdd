@@ -25023,7 +25023,10 @@ window.Vue = __webpack_require__(12);
 
 Vue.prototype.authorize = function (handler) {
   // Additional admin privileges.
-  return handler(window.App.user);
+
+  var user = window.App.user;
+
+  return user ? handler(user) : false;
 };
 
 window.events = new Vue();
@@ -47920,7 +47923,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 	methods: {
-		remove: function remove(index) {
+		remove: function remove(index, outro) {
 			this.items.splice(index, 1);
 
 			this.$emit('removed');
@@ -48325,7 +48328,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    _vm._l(_vm.items, function(reply, index) {
+    _vm._l(_vm.items, function(reply, index, outro) {
       return _c(
         "div",
         [
@@ -48333,7 +48336,7 @@ var render = function() {
             attrs: { data: reply },
             on: {
               deleted: function($event) {
-                _vm.remove(index)
+                _vm.remove(index, outro)
               }
             }
           })

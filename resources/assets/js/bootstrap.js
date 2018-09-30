@@ -42,7 +42,10 @@ window.Vue = require('vue');
 
 Vue.prototype.authorize = function (handler) {
 	// Additional admin privileges.
-	return handler(window.App.user);
+
+	let user = window.App.user;
+
+	return user ? handler(user) : false;
 }
 
 window.events = new Vue();

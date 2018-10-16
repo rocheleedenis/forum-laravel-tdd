@@ -3,23 +3,13 @@
 namespace Tests\Feature;
 
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class FavoritesTest extends TestCase
 {
-    use DatabaseMigrations;
-
-    protected function setUp()
-    {
-        parent::setUp();
-
-        $this->withoutExceptionHandling();
-    }
-
     /**
      * @test
      */
-    public function testGuesCanFavoriteAnything()
+    public function guesCanFavoriteAnything()
     {
         $this->withExceptionHandling()
             ->post('replies/1/favorites')
@@ -29,7 +19,7 @@ class FavoritesTest extends TestCase
     /**
      * @test
      */
-    public function testAnAuthenticatedUserCanFavoriteAnyReply()
+    public function anAuthenticatedUserCanFavoriteAnyReply()
     {
         $this->signIn();
 
@@ -43,7 +33,7 @@ class FavoritesTest extends TestCase
     /**
      * @test
      */
-    public function testAnAuthenticatedUserMayOnlyFavoriteAReplyOnce()
+    public function anAuthenticatedUserMayOnlyFavoriteAReplyOnce()
     {
         $this->signIn();
 
@@ -61,7 +51,7 @@ class FavoritesTest extends TestCase
     /**
      * @test
      */
-    public function testAnAuthenticatedUserCanUnfavoriteAnyReply()
+    public function anAuthenticatedUserCanUnfavoriteAnyReply()
     {
         $this->signIn();
 

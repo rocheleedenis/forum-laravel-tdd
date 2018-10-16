@@ -3,23 +3,13 @@
 namespace Tests\Feature;
 
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class CreateThreadsTest extends TestCase
 {
-    use DatabaseMigrations;
-
-    protected function setUp()
-    {
-        parent::setUp();
-
-        $this->withoutExceptionHandling();
-    }
-
     /**
     * @test
     **/
-    public function testGuestMayNotCreateThreads()
+    public function guestMayNotCreateThreads()
     {
         $this->withExceptionHandling()
             ->get('/threads/create')
@@ -33,7 +23,7 @@ class CreateThreadsTest extends TestCase
     /**
     * @test
     **/
-    public function testAnAuthenticateUserCanCreateNewForumThreads()
+    public function anAuthenticateUserCanCreateNewForumThreads()
     {
         $this->signIn();
 
@@ -49,7 +39,7 @@ class CreateThreadsTest extends TestCase
     /**
     * @test
     **/
-    public function testAThreadRequiresATitle()
+    public function aThreadRequiresATitle()
     {
         $this->publishThread(['title' => null])
             ->assertSessionHasErrors('title');
@@ -58,7 +48,7 @@ class CreateThreadsTest extends TestCase
     /**
     * @test
     **/
-    public function testAThreadRequiresABody()
+    public function aThreadRequiresABody()
     {
         $this->publishThread(['body' => null])
             ->assertSessionHasErrors('body');
@@ -67,7 +57,7 @@ class CreateThreadsTest extends TestCase
     /**
     * @test
     **/
-    public function testAThreadRequiresAValidChannel()
+    public function aThreadRequiresAValidChannel()
     {
         $this->publishThread(['channel_id' => null])
             ->assertSessionHasErrors('channel_id');
@@ -78,7 +68,7 @@ class CreateThreadsTest extends TestCase
     /**
     * @test
     **/
-    public function testUnautorizedUserMayNotDeleteThreads()
+    public function unautorizedUserMayNotDeleteThreads()
     {
         $this->withExceptionHandling();
 
@@ -96,7 +86,7 @@ class CreateThreadsTest extends TestCase
     /**
     * @test
     **/
-    public function testAutorizedUserCanDeleteThreads()
+    public function autorizedUserCanDeleteThreads()
     {
         $this->signIn();
 

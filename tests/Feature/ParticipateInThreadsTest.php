@@ -3,64 +3,58 @@
 namespace Tests\Feature;
 
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 
-class ParticipateInForumTest extends TestCase
+class ParticipateInThreadsTest extends TestCase
 {
-    use DatabaseMigrations;
-
-    protected $thread;
-
-    public function setUp()
-    {
-        parent::setUp();
-
-        $this->withoutExceptionHandling();
-
-        $this->thread = create('App\Thread');
-        $this->reply  = make('App\Reply');
-    }
-
     /**
      * @test
      */
-    public function testUthenticatedUsersMayNotAddReplies()
+    public function uthenticatedUsersMayNotAddReplies()
     {
+        $thread = create('App\Thread');
+        $reply  = make('App\Reply');
+
         $this->withExceptionHandling()
-            ->post($this->thread->path() . '/replies', $this->reply->toArray())
+            ->post($thread->path() . '/replies', $reply->toArray())
             ->assertRedirect('/login');
     }
 
     /**
      * @test
      */
-    public function testAnAuthenticatedUserMayParticipateInForumThreads()
+    public function anAuthenticatedUserMayParticipateInForumThreads()
     {
+        $thread = create('App\Thread');
+
         $this->signIn();
 
-        $this->post($this->thread->path() . '/replies', $this->reply->toArray());
+        $reply = make('App\Reply');
 
-        $this->get($this->thread->path())
-            ->assertSee($this->reply->body);
+        $this->post($thread->path() . '/replies', $reply->toArray());
+
+        $this->assertDatabaseHas('replies', ['body' => $reply->body]);
+        $this->assertEquals(1, $thread->fresh()->replies_count);
     }
 
     /**
      * @test
      */
-    public function testAReplyRequiresABody()
+    public function aReplyRequiresABody()
     {
-        $this->withExceptionHandling()->signIn();
+        $thread = create('App\Thread');
 
-        $this->reply->body = null;
+        $this->signIn();
 
-        $this->post($this->thread->path() . '/replies', $this->reply->toArray())
+        $reply = make('App\Reply', ['body' => null]);
+
+        $this->post($thread->path() . '/replies', $reply->toArray())
             ->assertSessionHasErrors('body');
     }
 
     /**
      * @test
      */
-    public function testUthenticatedUsersCannotDeleteReplies()
+    public function uthenticatedUsersCannotDeleteReplies()
     {
         $reply = create('App\Reply');
 
@@ -76,7 +70,7 @@ class ParticipateInForumTest extends TestCase
     /**
      * @test
      */
-    public function testAuthorizedUsersCanDeleteReplies()
+    public function authorizedUsersCanDeleteReplies()
     {
         $this->signIn();
 
@@ -85,12 +79,14 @@ class ParticipateInForumTest extends TestCase
         $this->delete("/replies/{$reply->id}")->assertStatus(302);
 
         $this->assertDatabaseMissing('replies', ['id' => $reply->id]);
+
+        $this->assertEquals(0, $reply->thread->fresh()->replies_count);
     }
 
     /**
          * @test
          */
-    public function testAuthorizedUsersCannotUpdateReplies()
+    public function authorizedUsersCannotUpdateReplies()
     {
         $this->withExceptionHandling();
 
@@ -107,7 +103,7 @@ class ParticipateInForumTest extends TestCase
     /**
      * @test
      */
-    public function testAuthorizedUsersCanUpdateReplies()
+    public function authorizedUsersCanUpdateReplies()
     {
         $this->signIn();
 

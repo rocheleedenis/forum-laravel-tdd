@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<div v-if="signedIn">
+		<div class="mx-3" v-if="signedIn">
             <div class="form-group row">
                 <textarea name="body"
 	                    class="form-control"

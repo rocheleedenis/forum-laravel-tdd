@@ -78,6 +78,8 @@
                 axios.delete('/replies/' + this.data.id);
 
                 this.$emit('deleted', this.data.id);
+
+                flash('Your reply has been deleted.');
             }
         }
     }

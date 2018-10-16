@@ -3,23 +3,13 @@
 namespace Tests\Feature;
 
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class ProfilesTest extends TestCase
 {
-    use DatabaseMigrations;
-
-    protected function setUp()
-    {
-        parent::setUp();
-
-        $this->withoutExceptionHandling();
-    }
-
     /**
      * @test
      */
-    public function testAUserHasAProfile()
+    public function aUserHasAProfile()
     {
         $user = create('App\User');
 
@@ -30,7 +20,7 @@ class ProfilesTest extends TestCase
     /**
      * @test
      */
-    public function testProfilesDisplayAllThreadsCreatedByTheAssiciatedUser()
+    public function profilesDisplayAllThreadsCreatedByTheAssiciatedUser()
     {
         $this->signIn();
 

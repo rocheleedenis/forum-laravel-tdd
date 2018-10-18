@@ -14,6 +14,8 @@ class Thread extends Model
      */
     protected $guarded = [];
 
+    protected $appends = ['isSubscribedTo'];
+
     /**
     * @var array
     */
@@ -111,5 +113,12 @@ class Thread extends Model
     public function subscriptions()
     {
         return $this->hasMany('App\ThreadSubscription');
+    }
+
+    public function getIsSubscribedToAttribute()
+    {
+        return $this->subscriptions()
+            ->where('user_id', auth()->id())
+            ->exists();
     }
 }

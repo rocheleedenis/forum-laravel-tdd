@@ -9,7 +9,7 @@ class ParticipateInThreadsTest extends TestCase
     /**
      * @test
      */
-    public function uthenticatedUsersMayNotAddReplies()
+    public function uthenticated_users_may_not_add_replies()
     {
         $thread = create('App\Thread');
         $reply  = make('App\Reply');
@@ -22,7 +22,7 @@ class ParticipateInThreadsTest extends TestCase
     /**
      * @test
      */
-    public function anAuthenticatedUserMayParticipateInForumThreads()
+    public function an_authenticated_user_may_participate_in_forum_threads()
     {
         $thread = create('App\Thread');
 
@@ -39,7 +39,7 @@ class ParticipateInThreadsTest extends TestCase
     /**
      * @test
      */
-    public function aReplyRequiresABody()
+    public function a_reply_requires_a_body()
     {
         $thread = create('App\Thread');
 
@@ -55,7 +55,7 @@ class ParticipateInThreadsTest extends TestCase
     /**
      * @test
      */
-    public function uthenticatedUsersCannotDeleteReplies()
+    public function uthenticated_users_cannot_delete_replies()
     {
         $reply = create('App\Reply');
 
@@ -71,7 +71,7 @@ class ParticipateInThreadsTest extends TestCase
     /**
      * @test
      */
-    public function authorizedUsersCanDeleteReplies()
+    public function authorized_users_can_delete_replies()
     {
         $this->signIn();
 
@@ -87,7 +87,7 @@ class ParticipateInThreadsTest extends TestCase
     /**
          * @test
          */
-    public function authorizedUsersCannotUpdateReplies()
+    public function authorized_users_cannot_update_replies()
     {
         $this->withExceptionHandling();
 
@@ -104,7 +104,7 @@ class ParticipateInThreadsTest extends TestCase
     /**
      * @test
      */
-    public function authorizedUsersCanUpdateReplies()
+    public function authorized_users_can_update_replies()
     {
         $this->signIn();
 
@@ -114,5 +114,23 @@ class ParticipateInThreadsTest extends TestCase
         $this->patch("/replies/{$reply->id}", ['body' => $updateReply]);
 
         $this->assertDatabaseHas('replies', ['id' => $reply->id, 'body' => $updateReply]);
+    }
+
+    /**
+     * @test
+     */
+    public function replies_that_contain_spam_may_not_be_created()
+    {
+        $this->signIn();
+
+        $thread = create('App\Thread');
+
+        $reply = make('App\Reply', [
+            'body' => 'Yahoo Customer Support'
+        ]);
+
+        $this->expectException(\Exception::class);
+
+        $this->post($thread->path() . '/replies', $reply->toArray());
     }
 }

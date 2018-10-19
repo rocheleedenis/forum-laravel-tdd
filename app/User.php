@@ -47,8 +47,26 @@ class User extends Authenticatable
         return $this->hasMany('App\Thread')->latest();
     }
 
+    /**
+     * Get all activity for the user.
+     *
+     * @return \Illuminate\Database\Eloquent\Relation\HasMany
+     */
     public function activity()
     {
         return $this->hasMany('App\Activity');
+    }
+
+    public function visitedThreadCacheKey($thread)
+    {
+        return sprintf('users.%s.visits.%s', $this->id, $thread->id);
+    }
+
+    public function read($thread)
+    {
+        cache()->forever(
+            $this->visitedThreadCacheKey($thread),
+            \Carbon\Carbon::now()
+        );
     }
 }

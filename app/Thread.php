@@ -136,15 +136,32 @@ class Thread extends Model
             ->delete();
     }
 
+    /**
+     * A thread can have many subscriptions.
+     *
+     * @return \Illuminate\Database\Eloquent\Relation\HasMany
+     */
     public function subscriptions()
     {
         return $this->hasMany('App\ThreadSubscription');
     }
 
+    /**
+     * Determine if the current user is subscribed to the trhead.
+     *
+     * @return boolean
+     */
     public function getIsSubscribedToAttribute()
     {
         return $this->subscriptions()
             ->where('user_id', auth()->id())
             ->exists();
+    }
+
+    public function hasUpdatedFor($user)
+    {
+        $key = $user->visitedThreadCacheKey($this);
+
+        return $this->updated_at > cache($key);
     }
 }

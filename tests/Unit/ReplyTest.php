@@ -3,23 +3,30 @@
 namespace Tests\Unit;
 
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class ReplyTest extends TestCase
 {
-    use DatabaseMigrations;
-
-    protected function setUp()
-    {
-        parent::setUp();
-
-        $this->withoutExceptionHandling();
-    }
-
-    public function testItHasAnOwner()
+    /**
+     * @test
+     */
+    public function it_has_an_owner()
     {
         $reply = create('App\Reply');
 
         $this->assertInstanceOf('App\User', $reply->owner);
+    }
+
+    /**
+     * @test
+     */
+    public function it_knows_if_was_just_published()
+    {
+        $reply = create('App\Reply');
+
+        $this->assertTrue($reply->wasJustPublished());
+
+        $reply->created_at = \Carbon\Carbon::now()->subMonth();
+
+        $this->assertFalse($reply->wasJustPublished());
     }
 }

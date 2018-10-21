@@ -47,9 +47,8 @@ class ParticipateInThreadsTest extends TestCase
 
         $reply = make('App\Reply', ['body' => null]);
 
-        $this->withExceptionHandling()
-            ->post($thread->path() . '/replies', $reply->toArray())
-            ->assertSessionHasErrors('body');
+        $this->post($thread->path() . '/replies', $reply->toArray())
+            ->assertStatus(422);
     }
 
     /**
@@ -85,8 +84,8 @@ class ParticipateInThreadsTest extends TestCase
     }
 
     /**
-         * @test
-         */
+     * @test
+     */
     public function authorized_users_cannot_update_replies()
     {
         $this->withExceptionHandling();
@@ -129,8 +128,27 @@ class ParticipateInThreadsTest extends TestCase
             'body' => 'Yahoo Customer Support'
         ]);
 
-        $this->expectException(\Exception::class);
+        $this->post($thread->path() . '/replies', $reply->toArray())
+            ->assertStatus(422);
+    }
 
-        $this->post($thread->path() . '/replies', $reply->toArray());
+    /**
+     * @test
+     */
+    public function users_may_only_reply_a_maximum_of_once_per_minute()
+    {
+        $this->signIn();
+
+        $thread = create('App\Thread');
+
+        $reply = make('App\Reply', [
+            'body' => 'My simple reply.'
+        ]);
+
+        $this->post($thread->path() . '/replies', $reply->toArray())
+            ->assertStatus(201);
+
+        $this->post($thread->path() . '/replies', $reply->toArray())
+            ->assertStatus(422);
     }
 }

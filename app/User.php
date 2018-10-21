@@ -57,16 +57,32 @@ class User extends Authenticatable
         return $this->hasMany('App\Activity');
     }
 
+    /**
+     * Return the way to the visited thread.
+     *
+     * @param  Thread $thread
+     * @return string
+     */
     public function visitedThreadCacheKey($thread)
     {
         return sprintf('users.%s.visits.%s', $this->id, $thread->id);
     }
 
+    /**
+     * Save in cache the visited thread.
+     *
+     * @param  \App\Thread $thread [description]
+     */
     public function read($thread)
     {
         cache()->forever(
             $this->visitedThreadCacheKey($thread),
             \Carbon\Carbon::now()
         );
+    }
+
+    public function lastReply()
+    {
+        return $this->hasOne(Reply::class)->latest();
     }
 }

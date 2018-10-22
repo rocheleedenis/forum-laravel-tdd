@@ -64449,7 +64449,7 @@ var render = function() {
         _c(
           "div",
           {
-            staticClass: "dropdown-menu",
+            staticClass: "dropdown-menu dropdown-menu-right",
             attrs: { "aria-labelledby": "navbarDropdown" }
           },
           _vm._l(_vm.notifications, function(notification) {

@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Reply;
 use App\Thread;
-use App\Notifications\YouWereMentioned;
 use App\Http\Requests\CreatePostRequest;
 
 class RepliesController extends Controller
@@ -17,6 +16,13 @@ class RepliesController extends Controller
         $this->middleware('auth', ['except' => 'index']);
     }
 
+    /**
+     * Get a listing of the replies.
+     *
+     * @param string $channelId
+     * @param Thread $thread
+     * @return type
+     */
     public function index($channelId, Thread $thread)
     {
         return $thread->replies()->paginate(10);
@@ -32,22 +38,10 @@ class RepliesController extends Controller
      */
     public function store($channelId, Thread $thread, CreatePostRequest $form)
     {
-        $reply = $thread->addReply([
+        return $reply = $thread->addReply([
             'body'    => request('body'),
             'user_id' => auth()->id()
-        ]);
-
-        preg_match_all('/\@([^\s\.]+)/', $reply->body, $matches);
-
-        foreach ($matches[1] as $name) {
-            $user = \App\User::where('name', $name)->first();
-
-            if ($user) {
-                $user->notify(new YouWereMentioned($reply));
-            }
-        }
-
-        return $reply->load('owner');
+        ])->load('owner');
     }
 
     /**

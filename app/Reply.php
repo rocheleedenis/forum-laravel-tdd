@@ -75,8 +75,25 @@ class Reply extends Model
         return $this->thread->path() . "#reply-{$this->id}";
     }
 
+    /**
+     * Determine it the reply was just published a moment ago.
+     *
+     * @return bool
+     */
     public function wasJustPublished()
     {
         return $this->created_at->gt(\Carbon\Carbon::now()->subMinute());
+    }
+
+    /**
+     * Get the users that was mentioneds in reply.
+     *
+     * @return array
+     */
+    public function mentionedUsers()
+    {
+        preg_match_all('/\@([^\s\.]+)/', $this->body, $matches);
+
+        return $matches[1];
     }
 }

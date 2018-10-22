@@ -7,7 +7,8 @@
 	                    placeholder="Have something to say?"
 	                    rows="5"
 	                    required
-	                    v-model="body"></textarea>
+	                    v-model="body"
+	                    id="body"></textarea>
             </div>
             <button type="submit"
 	            	class="btn btn-default"
@@ -21,6 +22,9 @@
 </template>
 
 <script>
+	import 'jquery.caret';
+	import 'at.js';
+
 	export default {
 		data() {
 			return {
@@ -32,6 +36,20 @@
 			signedIn() {
 				return window.App.signedIn;
 			}
+		},
+
+		mounted() {
+			$('#body').atwho({
+			    at: "@",
+			    delay: 750,
+			    callbacks: {
+					remoteFilter: (query, callback) => {
+						$.getJSON("/api/users", { name: query }, usernames => {
+							callback(usernames)
+						});
+					}
+				}
+			});
 		},
 
 		methods: {

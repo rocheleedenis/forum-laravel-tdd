@@ -32,6 +32,8 @@
         .mr-1 { margin-right: 1em !important; }
         [v-cloak] { display: none; }
     </style>
+
+    @yield('header')
 </head>
 <body>
     <div id="app">
@@ -43,6 +45,9 @@
 
         <flash message="{{ session('flash') }}"></flash>
     </div>
+
     <script src="/vendor/fontawesome/fontawesome-all.min.js"></script>
+
+    @yield('scripts')
 </body>
 </html>

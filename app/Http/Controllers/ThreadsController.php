@@ -10,9 +10,7 @@ use App\Filters\ThreadFilters;
 class ThreadsController extends Controller
 {
     /**
-     * ThreadsController constructor.
-     *
-     * @return void
+     * Create a new ThreadsController instance.
      */
     public function __construct()
     {

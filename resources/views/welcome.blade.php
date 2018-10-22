@@ -84,10 +84,8 @@
 
                 <div class="links">
                     <a href="/threads">Threads</a>
-                    <a href="https://laracasts.com">Laracasts</a>
-                    <a href="https://laravel-news.com">News</a>
-                    <a href="https://forge.laravel.com">Forge</a>
-                    <a href="https://github.com/laravel/laravel">GitHub</a>
+                    <a href="/threads?popularity=1">Popular Threads</a>
+                    <a href="/threads?unanswered=1">Unanswered Threads</a>
                 </div>
             </div>
         </div>

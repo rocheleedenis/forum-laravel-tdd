@@ -12,12 +12,16 @@
                     <div class="card">
                         <div class="card-header">
                             <h5 class="level">
+                                <img class="mr-2" src="{{ asset($thread->creator->avatar()) }}" with="30" height="30">
+
                                 <div class="flex">
                                     <a href="{{ route('profile', $thread->creator->name) }}" title="See perfil">
                                         {{ $thread->creator->name }}
                                     </a> posted:
+
                                     <strong>{{ $thread->title }}</strong>
                                 </div>
+
                                 @can ('update', $thread)
                                     <form action="{{ $thread->path() }}" method="POST">
                                         @csrf

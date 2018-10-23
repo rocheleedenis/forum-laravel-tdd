@@ -15,10 +15,18 @@ class DatabaseSeeder extends Seeder
             'name'  => 'Rochele',
             'email' => 'rochele@gmail.com'
         ]);
+        create('App\User', [
+            'name'  => 'JohnDoe',
+            'email' => 'john@gmail.com'
+        ]);
+        create('App\User', [
+            'name'  => 'JaneDoe',
+            'email' => 'jane@gmail.com'
+        ]);
 
         $threads = factory('App\Thread', 10)->create();
-        $threads->each(function ($thread) { 
-            factory('App\Reply', 5)->create(['thread_id' => $thread->id]); 
+        $threads->each(function ($thread) {
+            factory('App\Reply', 5)->create(['thread_id' => $thread->id]);
         });
     }
 }

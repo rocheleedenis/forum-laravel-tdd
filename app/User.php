@@ -38,7 +38,7 @@ class User extends Authenticatable
     }
 
     /**
-     * A user may has threads.
+     * Fetch all threads that were created by the user.
      *
      * @return \Illuminate\Database\Eloquent\Relation\HasMany
      */
@@ -58,7 +58,7 @@ class User extends Authenticatable
     }
 
     /**
-     * Return the way to the visited thread.
+     * Get the cache key for when a user reads a thread.
      *
      * @param  Thread $thread
      * @return string
@@ -69,9 +69,9 @@ class User extends Authenticatable
     }
 
     /**
-     * Save in cache the visited thread.
+     * Record that user has read the given thread.
      *
-     * @param  \App\Thread $thread [description]
+     * @param  \App\Thread $thread
      */
     public function read($thread)
     {
@@ -81,8 +81,18 @@ class User extends Authenticatable
         );
     }
 
+    /**
+     * Get the last reply saved for the user.
+     *
+     * @return \App\Reply
+     */
     public function lastReply()
     {
         return $this->hasOne(Reply::class)->latest();
+    }
+
+    public function avatar()
+    {
+        return $this->avatar_path ?: 'avatars/default.jpg';
     }
 }

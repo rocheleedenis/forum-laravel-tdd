@@ -44,7 +44,7 @@ class AddAvatarTest extends TestCase
         ]);
 
         $this->assertEquals(
-            'avatars/' . $file->hashName(),
+            asset('avatars/' . $file->hashName()),
             auth()->user()->avatar_path
         );
 

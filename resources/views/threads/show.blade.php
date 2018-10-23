@@ -12,7 +12,7 @@
                     <div class="card">
                         <div class="card-header">
                             <h5 class="level">
-                                <img class="mr-2" src="{{ asset($thread->creator->avatar()) }}" with="30" height="30">
+                                <img class="mr-2" src="{{ $thread->creator->avatar_path }}" with="30" height="30">
 
                                 <div class="flex">
                                     <a href="{{ route('profile', $thread->creator->name) }}" title="See perfil">

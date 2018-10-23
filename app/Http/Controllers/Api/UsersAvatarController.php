@@ -6,6 +6,11 @@ use App\Http\Controllers\Controller;
 
 class UsersAvatarController extends Controller
 {
+    /**
+     * Save a new avatar for the signed user.
+     *
+     * @return
+     */
     public function store()
     {
         $this->validate(request(), [
@@ -16,6 +21,6 @@ class UsersAvatarController extends Controller
             'avatar_path' => request()->file('avatar')->store('avatars', 'public')
         ]);
 
-        return back();
+        return response([], 204);
     }
 }

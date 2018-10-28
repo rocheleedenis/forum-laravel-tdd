@@ -3,7 +3,7 @@
         <div class="card-header">
             <div class="level">
                 <div class="flex">
-                    <h4>
+                    <h5>
                         <a href="{{ $thread->path() }}">
                             @if(auth()->check() && $thread->hasUpdatedFor(auth()->user()))
                                 <strong>
@@ -13,9 +13,14 @@
                                 {{ $thread->title }}
                             @endif
                         </a>
-                    </h4>
+                    </h5>
 
-                    <h5>Posted by: <a href="/profiles/{{ $thread->creator->name }}">{{ $thread->creator->name }}</a></h5>
+                    <p class="m-0">
+                        Posted by:
+                        <a href="/profiles/{{ $thread->creator->name }}">
+                            {{ $thread->creator->name }}
+                        </a>
+                    </p>
                 </div>
 
                 <a href="{{ $thread->path() }}">

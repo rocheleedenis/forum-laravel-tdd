@@ -10,20 +10,22 @@
             </div>
 
             <div class="col-md-4">
-				<div class="card">
-			        <div class="card-header">
-						Trending Threads
-			        </div>
-			        <div class="card-body">
-			        	<div class="list-group-flush">
-	        				@foreach ($trending as $thread)
-			        			<a class="list-group-item list-group-item-action" href="{{ $thread->path }}">
-			        				{{ $thread->title }}
-			        			</a>
-				        	@endforeach
-			        	</article>
-			        </div>
-			    </div>
+            	@if(count($trending))
+					<div class="card">
+				        <div class="card-header">
+							Trending Threads
+				        </div>
+				        <div class="card-body">
+				        	<div class="list-group-flush">
+		        				@foreach ($trending as $thread)
+				        			<a class="list-group-item list-group-item-action" href="{{ $thread->path }}">
+				        				{{ $thread->title }}
+				        			</a>
+					        	@endforeach
+				        	</article>
+				        </div>
+				    </div>
+				@endif
             </div>
         </div>
     </div>

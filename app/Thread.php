@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Thread extends Model
 {
-    use RecordsActivity;
+    use RecordsActivity, RecordsVisits;
     /**
      * Don't auto-apply mass assignment protection.
      *
@@ -15,6 +15,11 @@ class Thread extends Model
      */
     protected $guarded = [];
 
+    /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
     protected $appends = ['isSubscribedTo'];
 
     /**
@@ -150,6 +155,12 @@ class Thread extends Model
             ->exists();
     }
 
+    /**
+     * Determine if the thread has been updated since the user last read it.
+     *
+     * @param \App\User $user
+     * @return boolean
+     */
     public function hasUpdatedFor($user)
     {
         $key = $user->visitedThreadCacheKey($this);

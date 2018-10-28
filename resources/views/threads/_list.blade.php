@@ -28,10 +28,15 @@
                 </a>
             </div>
         </div>
+
         <div class="card-body">
             <article>
                 <div class="body">{{ $thread->body }}</div>
             </article>
+        </div>
+
+        <div class="card-footer text-muted">
+            {{ $thread->visits() }} visits
         </div>
     </div>
 @empty

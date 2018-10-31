@@ -36,7 +36,7 @@
         </div>
 
         <div class="card-footer text-muted">
-            {{ $thread->visits()->count() }} visits
+            {{ $thread->visits }} visits
         </div>
     </div>
 @empty

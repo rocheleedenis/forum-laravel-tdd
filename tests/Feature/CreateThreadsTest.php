@@ -9,21 +9,31 @@ class CreateThreadsTest extends TestCase
     /**
     * @test
     **/
-    public function guestMayNotCreateThreads()
+    public function guest_may_not_create_threads()
     {
-        $this->withExceptionHandling()
-            ->get('/threads/create')
+        $this->withExceptionHandling();
+
+        $this->get('/threads/create')
             ->assertRedirect('/login');
 
-        $this->withExceptionHandling()
-            ->post('/threads')
+        $this->post('/threads')
             ->assertRedirect('/login');
     }
 
     /**
     * @test
     **/
-    public function anAuthenticateUserCanCreateNewForumThreads()
+    public function authenticate_users_must_first_confirm_their_email_address_before_creating_threads()
+    {
+        $this->publishThread()
+            ->assertRedirect('/threads')
+            ->assertSessionHas('flash', 'You must first confirm your e-mail address.');
+    }
+
+    /**
+    * @test
+    **/
+    public function an_authenticate_user_can_create_new_forum_threads()
     {
         $this->signIn();
 
@@ -39,7 +49,7 @@ class CreateThreadsTest extends TestCase
     /**
     * @test
     **/
-    public function aThreadRequiresATitle()
+    public function a_thread_requires_a_title()
     {
         $this->publishThread(['title' => null])
             ->assertSessionHasErrors('title');
@@ -48,7 +58,7 @@ class CreateThreadsTest extends TestCase
     /**
     * @test
     **/
-    public function aThreadRequiresABody()
+    public function a_thread_requires_a_body()
     {
         $this->publishThread(['body' => null])
             ->assertSessionHasErrors('body');
@@ -57,10 +67,11 @@ class CreateThreadsTest extends TestCase
     /**
     * @test
     **/
-    public function aThreadRequiresAValidChannel()
+    public function a_thread_requires_a_valid_channel()
     {
         $this->publishThread(['channel_id' => null])
             ->assertSessionHasErrors('channel_id');
+
         $this->publishThread(['channel_id' => 999])
             ->assertSessionHasErrors('channel_id');
     }
@@ -68,7 +79,7 @@ class CreateThreadsTest extends TestCase
     /**
     * @test
     **/
-    public function unautorizedUserMayNotDeleteThreads()
+    public function unautorized_user_may_not_delete_threads()
     {
         $this->withExceptionHandling();
 
@@ -86,7 +97,7 @@ class CreateThreadsTest extends TestCase
     /**
     * @test
     **/
-    public function autorizedUserCanDeleteThreads()
+    public function autorized_user_can_delete_threads()
     {
         $this->signIn();
 

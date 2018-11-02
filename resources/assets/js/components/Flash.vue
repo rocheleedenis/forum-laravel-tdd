@@ -18,7 +18,7 @@
         },
         created() {
             if (this.message) {
-                this.flash(this.message);
+                this.flash();
             }
 
             window.events.$on(
@@ -28,9 +28,12 @@
 
         methods: {
             flash(data) {
-                this.body  = data.message;
-                this.level = data.level;
-                this.show  = true;
+                if (data) {
+                    this.body  = data.message;
+                    this.level = data.level;
+                }
+
+                this.show = true;
 
                 this.hide();
             },

@@ -19,6 +19,15 @@ class User extends Authenticatable
     ];
 
     /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'confirmed' => 'boolean'
+    ];
+
+    /**
      * The attributes that should be hidden for arrays.
      *
      * @var array
@@ -55,6 +64,12 @@ class User extends Authenticatable
     public function activity()
     {
         return $this->hasMany('App\Activity');
+    }
+
+    public function confirm()
+    {
+        $this->confirmed = true;
+        $this->save();
     }
 
     /**

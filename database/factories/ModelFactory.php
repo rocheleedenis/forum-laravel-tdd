@@ -30,10 +30,13 @@ $factory->state(App\User::class, 'unconfirmed', function () {
 });
 
 $factory->define(App\Thread::class, function ($faker) {
+    $title = $faker->sentence;
+
     return [
-        'title'      => $faker->sentence,
+        'title'      => $title,
         'body'       => $faker->paragraph,
         'visits'     => 0,
+        'slug'       => str_slug($title),
         'channel_id' => function () {
             return factory('App\Channel')->create()->id;
         },

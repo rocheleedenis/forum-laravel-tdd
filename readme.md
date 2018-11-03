@@ -1,55 +1,46 @@
-# Forum
+<h1 align="center">Forum With Laravel and TDD</h1>
 
-1. Thread
-2. Reply
-3. User
+[![Build Status](https://travis-ci.org/rocheleedenis/forum-laravel-with-tdd.svg?branch=master)](https://travis-ci.org/rocheleedenis/forum-laravel-with-tdd)
 
-A. Thread is created by a user
-B. A reply belongs to a thread, and belongs to a user
+Aplicação criada a partir do curso [<b>Let's Build A Forum with Laravel and TDD</b>](https://laracasts.com/series/lets-build-a-forum-with-laravel).
 
-===================================================
+## Instalação
+### Configuração
 
-# First lesson
-php artisan make:model Thread -mr // cria o model, controller e migration de uma vez
-php artisan make:model Reply -mr
-mysql -uroot -p // create database forum
-php artisan migrate:refresh
-php artisan tinker
-
-$faker = Faker\Factory::create();
-
-===================================================
-
-# 07 Lesson
-On composer.json file add
-...
-"autoload-dev": {
-	...,
-	"files": [
-		"tests/utilities/functions.php"
-	]
-}
-
-And run
+``` bash
+# Instalar dependências do projeto
+composer install
+# Atualizar lista de classes
 composer dump-autoload
 
-See TestCase.php
+# Configurar variáveis de ambiente
+cp .env.example .env
+php artisan key:generate
 
-====================================================
+# Gerar banco de dados
+php artisan migrate:refresh --seed
+```
 
-Case: Module build failed: Error: No parser and no file path given, couldn't infer a parser.
+#### Instale o Redis
 
-Go to: node_modules\vue-loader\lib\template-compiler
-Open index.js and look for:
+É importante que você tenha o Redis instalado em sua máquina. Mais detalhes sobre ele em https://laravel.com/docs/5.6/redis.
 
-// prettify render fn
-if (!isProduction) {
-	code = prettier.format(code, { semi: false})
-}
+## Login
+O usuário de teste é:
+```
+email   : rochele@gmail.com
+password: secret
+```
 
-and change the lines to:
+## Funções especiais
 
-// prettify render fn
-if (!isProduction) {
-	code = prettier.format(code, { semi: false, parser: 'babylon' })
-}
+``` bash
+# Autentica um usuário qualquer
+$this->signIn();
+
+# Salva registro fake no banco de dados
+create('App\Model', ['attr' => $value], $quantidade);
+
+# Cria registro fake
+make('App\Model', ['attr' => $value], $quantidade);
+```

@@ -1,0 +1,27 @@
+# Linguagem Utilizada para Desenvolver a Aplicação
+language: php
+
+# Versão que a aplicação suporta.
+php:
+  - "7.2.11"
+
+services:
+  - redis-server
+
+before_script:
+  - cp .env.travis .env
+  - mysql -e 'create database homestead_test;'
+  - composer self-update
+  - composer install --no-interaction
+  - composer dump-autoload
+  - php artisan key:generate
+
+script:
+  - vendor/bin/phpunit
+
+# Defini que o processo de Deploy será na Plataforma Heroku. É necessário informar o nome da APP criada no Heroku
+# deploy:
+#   provider: heroku
+#   api-key:
+#     secure: $HEROKU_API_KEY
+#   app: forum-laravel-with-tdd

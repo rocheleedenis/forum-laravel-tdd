@@ -30,6 +30,8 @@ class RegistrationTest extends TestCase
      */
     public function user_can_fully_confirm_theis_email_address()
     {
+        Mail::fake();
+
         $this->post(route('register'), [
             'name'                  => 'John',
             'email'                 => 'john@example.com',
@@ -45,7 +47,10 @@ class RegistrationTest extends TestCase
         $this->get(route('register.confirm', ['token' => $user->confirmation_token]))
             ->assertRedirect(route('threads'));
 
-        $this->assertTrue($user->fresh()->confirmed);
+        tap($user->fresh(), function ($user) {
+            $this->assertTrue($user->confirmed);
+            $this->assertNull($user->confirmation_token);
+        });
     }
 
     /**

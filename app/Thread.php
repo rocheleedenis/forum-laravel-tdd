@@ -195,7 +195,11 @@ class Thread extends Model
             $slug = $slug . '-' . $this->id;
         }
 
-        // var_dump($slug);
         $this->attributes['slug'] = $slug;
+    }
+
+    public function markBestReply(Reply $reply)
+    {
+        $this->update(['best_reply_id' => $reply->id]);
     }
 }

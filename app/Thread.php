@@ -87,6 +87,11 @@ class Thread extends Model
         return $reply;
     }
 
+    public function lock()
+    {
+        $this->update(['locked' => true]);
+    }
+
     /**
      * A thread is assigned a channel.
      *

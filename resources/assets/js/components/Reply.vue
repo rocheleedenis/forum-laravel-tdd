@@ -1,9 +1,9 @@
 <template>
-    <div :id="'reply-' + id" class="card">
-        <div class="card-header">
+    <div :id="'reply-' + id" class="card" :class="isBest ? 'text-white bg-success' : ''">
+        <div class="card-header" :class="isBest ? 'text-white bg-success' : ''">
             <div class="level">
                 <span class="flex">
-                    <a href="'/profiles/' + data.owner.name" title="Ver perfil"
+                    <a :class="isBest ? 'text-white font-weight-bold' : ''" href="'/profiles/' + data.owner.name" title="Ver perfil"
                         v-text="data.owner.name">
                     </a> said <span v-text="ago"></span>
                 </span>
@@ -14,7 +14,7 @@
             </div>
         </div>
 
-        <div class="card-body">
+        <div class="card-body" :class="isBest ? 'bg-white text-dark' : ''">
             <div v-if="editing">
                 <form @submit.prevent="update">
                     <div class="form-group">
@@ -28,9 +28,13 @@
             <div v-else v-html="body"></div>
         </div>
 
-        <div class="card-footer level" v-if="canUpdate">
-            <button class="btn btn-sm mr-1" @click="editing = true">Edit</button>
-            <button class="btn btn-sm btn-danger mr-1" @click="destroy">Delete</button>
+        <div class="card-footer level" :class="isBest ? 'bg-light' : ''">
+            <div v-if="canUpdate">
+                <button class="btn btn-sm mr-1" @click="editing = true">Edit</button>
+                <button class="btn btn-sm btn-danger mr-1" @click="destroy">Delete</button>
+            </div>
+
+            <button class="btn btn-sm btn-success ml-auto" @click="markBestReply" v-show="! isBest">Best Reply?</button>
         </div>
     </div>
 </template>
@@ -48,7 +52,8 @@
             return {
                 editing: false,
                 id     : this.data.id,
-                body   : this.data.body
+                body   : this.data.body,
+                isBest : false
             };
         },
 
@@ -87,6 +92,10 @@
                 this.$emit('deleted', this.data.id);
 
                 flash('Your reply has been deleted.');
+            },
+
+            markBestReply() {
+                this.isBest = true;
             }
         }
     }

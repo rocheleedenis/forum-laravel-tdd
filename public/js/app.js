@@ -64467,6 +64467,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
 
 
 
@@ -64480,7 +64484,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         return {
             editing: false,
             id: this.data.id,
-            body: this.data.body
+            body: this.data.body,
+            isBest: false
         };
     },
 
@@ -64519,6 +64524,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.$emit('deleted', this.data.id);
 
             flash('Your reply has been deleted.');
+        },
+        markBestReply: function markBestReply() {
+            this.isBest = true;
         }
     }
 });
@@ -64931,114 +64939,163 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "card", attrs: { id: "reply-" + _vm.id } }, [
-    _c("div", { staticClass: "card-header" }, [
-      _c("div", { staticClass: "level" }, [
-        _c("span", { staticClass: "flex" }, [
-          _c("a", {
-            attrs: {
-              href: "'/profiles/' + data.owner.name",
-              title: "Ver perfil"
-            },
-            domProps: { textContent: _vm._s(_vm.data.owner.name) }
-          }),
-          _vm._v(" said "),
-          _c("span", { domProps: { textContent: _vm._s(_vm.ago) } })
-        ]),
-        _vm._v(" "),
-        _vm.signedIn
-          ? _c("div", [_c("favorite", { attrs: { reply: _vm.data } })], 1)
-          : _vm._e()
-      ])
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "card-body" }, [
-      _vm.editing
-        ? _c("div", [
-            _c(
-              "form",
-              {
-                on: {
-                  submit: function($event) {
-                    $event.preventDefault()
-                    return _vm.update($event)
-                  }
-                }
-              },
-              [
-                _c("div", { staticClass: "form-group" }, [
-                  _c("textarea", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.body,
-                        expression: "body"
-                      }
-                    ],
-                    staticClass: "form-control",
-                    attrs: { required: "" },
-                    domProps: { value: _vm.body },
+  return _c(
+    "div",
+    {
+      staticClass: "card",
+      class: _vm.isBest ? "text-white bg-success" : "",
+      attrs: { id: "reply-" + _vm.id }
+    },
+    [
+      _c(
+        "div",
+        {
+          staticClass: "card-header",
+          class: _vm.isBest ? "text-white bg-success" : ""
+        },
+        [
+          _c("div", { staticClass: "level" }, [
+            _c("span", { staticClass: "flex" }, [
+              _c("a", {
+                class: _vm.isBest ? "text-white font-weight-bold" : "",
+                attrs: {
+                  href: "'/profiles/' + data.owner.name",
+                  title: "Ver perfil"
+                },
+                domProps: { textContent: _vm._s(_vm.data.owner.name) }
+              }),
+              _vm._v(" said "),
+              _c("span", { domProps: { textContent: _vm._s(_vm.ago) } })
+            ]),
+            _vm._v(" "),
+            _vm.signedIn
+              ? _c("div", [_c("favorite", { attrs: { reply: _vm.data } })], 1)
+              : _vm._e()
+          ])
+        ]
+      ),
+      _vm._v(" "),
+      _c(
+        "div",
+        {
+          staticClass: "card-body",
+          class: _vm.isBest ? "bg-white text-dark" : ""
+        },
+        [
+          _vm.editing
+            ? _c("div", [
+                _c(
+                  "form",
+                  {
                     on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.body = $event.target.value
+                      submit: function($event) {
+                        $event.preventDefault()
+                        return _vm.update($event)
                       }
                     }
-                  })
-                ]),
-                _vm._v(" "),
-                _c("button", { staticClass: "btn btn-sm btn-primary" }, [
-                  _vm._v("Update")
-                ]),
+                  },
+                  [
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("textarea", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.body,
+                            expression: "body"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { required: "" },
+                        domProps: { value: _vm.body },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.body = $event.target.value
+                          }
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("button", { staticClass: "btn btn-sm btn-primary" }, [
+                      _vm._v("Update")
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-sm btn-link",
+                        attrs: { type: "button" },
+                        on: {
+                          click: function($event) {
+                            _vm.editing = false
+                          }
+                        }
+                      },
+                      [_vm._v("Cancel")]
+                    )
+                  ]
+                )
+              ])
+            : _c("div", { domProps: { innerHTML: _vm._s(_vm.body) } })
+        ]
+      ),
+      _vm._v(" "),
+      _c(
+        "div",
+        {
+          staticClass: "card-footer level",
+          class: _vm.isBest ? "bg-light" : ""
+        },
+        [
+          _vm.canUpdate
+            ? _c("div", [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-sm mr-1",
+                    on: {
+                      click: function($event) {
+                        _vm.editing = true
+                      }
+                    }
+                  },
+                  [_vm._v("Edit")]
+                ),
                 _vm._v(" "),
                 _c(
                   "button",
                   {
-                    staticClass: "btn btn-sm btn-link",
-                    attrs: { type: "button" },
-                    on: {
-                      click: function($event) {
-                        _vm.editing = false
-                      }
-                    }
+                    staticClass: "btn btn-sm btn-danger mr-1",
+                    on: { click: _vm.destroy }
                   },
-                  [_vm._v("Cancel")]
+                  [_vm._v("Delete")]
                 )
-              ]
-            )
-          ])
-        : _c("div", { domProps: { innerHTML: _vm._s(_vm.body) } })
-    ]),
-    _vm._v(" "),
-    _vm.canUpdate
-      ? _c("div", { staticClass: "card-footer level" }, [
-          _c(
-            "button",
-            {
-              staticClass: "btn btn-sm mr-1",
-              on: {
-                click: function($event) {
-                  _vm.editing = true
-                }
-              }
-            },
-            [_vm._v("Edit")]
-          ),
+              ])
+            : _vm._e(),
           _vm._v(" "),
           _c(
             "button",
             {
-              staticClass: "btn btn-sm btn-danger mr-1",
-              on: { click: _vm.destroy }
+              directives: [
+                {
+                  name: "show",
+                  rawName: "v-show",
+                  value: !_vm.isBest,
+                  expression: "! isBest"
+                }
+              ],
+              staticClass: "btn btn-sm btn-success ml-auto",
+              on: { click: _vm.markBestReply }
             },
-            [_vm._v("Delete")]
+            [_vm._v("Best Reply?")]
           )
-        ])
-      : _vm._e()
-  ])
+        ]
+      )
+    ]
+  )
 }
 var staticRenderFns = []
 render._withStripped = true

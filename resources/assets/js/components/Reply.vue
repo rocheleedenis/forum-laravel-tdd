@@ -3,13 +3,13 @@
         <div class="card-header" :class="isBest ? 'text-white bg-success' : ''">
             <div class="level">
                 <span class="flex">
-                    <a :class="isBest ? 'text-white font-weight-bold' : ''" href="'/profiles/' + data.owner.name" title="Ver perfil"
-                        v-text="data.owner.name">
+                    <a :class="isBest ? 'text-white font-weight-bold' : ''" href="'/profiles/' + reply.owner.name" title="Ver perfil"
+                        v-text="reply.owner.name">
                     </a> said <span v-text="ago"></span>
                 </span>
 
                 <div v-if="signedIn">
-                    <favorite :reply="data"></favorite>
+                    <favorite :reply="reply"></favorite>
                 </div>
             </div>
         </div>
@@ -28,13 +28,20 @@
             <div v-else v-html="body"></div>
         </div>
 
-        <div class="card-footer level" :class="isBest ? 'bg-light' : ''">
-            <div v-if="authorize('updateReply', reply)">
+        <div class="card-footer level"
+            :class="isBest ? 'bg-light' : ''"
+            v-if="authorize('owns', reply) || authorize('owns', thread)">
+
+            <div v-if="authorize('owns', reply)">
                 <button class="btn btn-sm mr-1" @click="editing = true">Edit</button>
                 <button class="btn btn-sm btn-danger mr-1" @click="destroy">Delete</button>
             </div>
 
-            <button class="btn btn-sm btn-success ml-auto" @click="markBestReply" v-show="! isBest">Best Reply?</button>
+            <button class="btn btn-sm btn-success ml-auto" @click="markBestReply"
+                    v-if="authorize('owns', thread) && !isBest">
+
+                Best Reply?
+            </button>
         </div>
     </div>
 </template>
@@ -44,16 +51,15 @@
     import moment from 'moment';
 
     export default {
-        props: ['data'],
+        props: ['reply'],
 
         components: { Favorite },
 
         data() {
             return {
                 editing: false,
-                id     : this.data.id,
-                body   : this.data.body,
-                reply  : this.data,
+                id     : this.reply.id,
+                body   : this.reply.body,
                 thread : window.thread
             };
         },
@@ -64,14 +70,14 @@
             },
 
             ago() {
-                return moment(this.data.created_at).fromNow() + '...';
+                return moment(this.reply.created_at).fromNow() + '...';
             }
         },
 
         methods: {
             update () {
                 axios.patch(
-                    '/replies/' + this.data.id,  {
+                    '/replies/' + this.id,  {
                         body: this.body
                     })
                     .catch(error => {
@@ -84,15 +90,15 @@
             },
 
             destroy() {
-                axios.delete('/replies/' + this.data.id);
+                axios.delete('/replies/' + this.id);
 
-                this.$emit('deleted', this.data.id);
+                this.$emit('deleted', this.id);
 
                 flash('Your reply has been deleted.');
             },
 
             markBestReply() {
-                axios.post('/replies/' + this.data.id + '/best');
+                axios.post('/replies/' + this.id + '/best');
 
                 this.thread.best_reply_id = this.id;
             }

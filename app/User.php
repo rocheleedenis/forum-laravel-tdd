@@ -66,11 +66,20 @@ class User extends Authenticatable
         return $this->hasMany('App\Activity');
     }
 
+    /**
+     * Mark the user' account as confirmed.
+     */
     public function confirm()
     {
         $this->confirmed          = true;
         $this->confirmation_token = null;
+
         $this->save();
+    }
+
+    public function isAdmin()
+    {
+        return in_array($this->name, ['Rochele']);
     }
 
     /**

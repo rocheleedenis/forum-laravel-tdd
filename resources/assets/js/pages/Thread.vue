@@ -5,11 +5,12 @@
 	export default {
 		components: { Replies, SubscribeButton },
 
-		props: ['initialRepliesCount'],
+		props: ['dataRepliesCount', 'dataLocked'],
 
 		data() {
 			return {
-				repliesCount: this.initialRepliesCount
+				repliesCount: this.dataRepliesCount,
+				locked      : this.dataLocked
 			}
 		}
 	}

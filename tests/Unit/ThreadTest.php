@@ -29,7 +29,7 @@ class ThreadTest extends TestCase
     /**
      * @test
      */
-    public function aThreadHasReplies()
+    public function a_thread_has_a_replies()
     {
         $this->assertInstanceOf('Illuminate\Database\Eloquent\Collection', $this->thread->replies);
     }
@@ -37,7 +37,7 @@ class ThreadTest extends TestCase
     /**
      * @test
      */
-    public function aThreadHasACreator()
+    public function a_thread_has_a_creator()
     {
         $this->assertInstanceOf('App\User', $this->thread->creator);
     }
@@ -58,7 +58,7 @@ class ThreadTest extends TestCase
     /**
     * @test
     */
-    public function a_thread_thread_notifies_all_registered_subscribers_when_a_reply_is_added()
+    public function a_thread_notifies_all_registered_subscribers_when_a_reply_is_added()
     {
         Notification::fake();
 
@@ -76,7 +76,7 @@ class ThreadTest extends TestCase
     /**
      * @test
      */
-    public function aThreadBelongsToAChannel()
+    public function a_thread_belongs_to_a_channel()
     {
         $this->assertInstanceOf('App\Channel', $this->thread->channel);
     }
@@ -132,22 +132,9 @@ class ThreadTest extends TestCase
         tap(auth()->user(), function ($user) use ($thread) {
             $this->assertTrue($thread->hasUpdatedFor($user));
 
-            // simulate that the user visited the thread.
             $user->read($thread);
 
             $this->assertFalse($thread->hasUpdatedFor($user));
         });
-    }
-
-    /**
-     * @test
-     */
-    public function a_thread_may_be_locked()
-    {
-        $this->assertFalse($this->thread->locked);
-
-        $this->thread->lock();
-
-        $this->assertTrue($this->thread->locked);
     }
 }

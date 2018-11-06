@@ -28,6 +28,15 @@ class Thread extends Model
     protected $with = ['channel'];
 
     /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'locked' => 'boolean'
+    ];
+
+    /**
      * Boot the model
      */
     protected static function boot()
@@ -85,11 +94,6 @@ class Thread extends Model
         event(new ThreadReceivedNewReply($reply));
 
         return $reply;
-    }
-
-    public function lock()
-    {
-        $this->update(['locked' => true]);
     }
 
     /**
@@ -203,6 +207,11 @@ class Thread extends Model
         $this->attributes['slug'] = $slug;
     }
 
+    /**
+     * Mark the best reply.
+     *
+     * @param  Reply  $reply [description]
+     */
     public function markBestReply(Reply $reply)
     {
         $this->update(['best_reply_id' => $reply->id]);

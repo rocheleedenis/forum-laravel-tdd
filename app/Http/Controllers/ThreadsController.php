@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Zttp\Zttp;
 use App\Thread;
 use App\Channel;
 use App\Trending;
@@ -63,6 +64,16 @@ class ThreadsController extends Controller
             'body'       => 'required|spamfree',
             'channel_id' => 'required|exists:channels,id'
         ]);
+
+        $response = Zttp::asFormParams()->post('https://www.google.com/recaptcha/api/siteverify', [
+            'secret'  => config('services.recaptcha.secret'),
+            'response'=> $request->input('g-recaptcha-response'),
+            'remoteip'=> $_SERVER['REMOTE_ADDR']
+        ]);
+
+        if (!$response->json()['success']) {
+            throw new \Exception('Recaptcha failed.');
+        };
 
         $thread = Thread::create([
             'user_id'    => auth()->id(),

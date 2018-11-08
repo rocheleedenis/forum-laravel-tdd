@@ -103,6 +103,25 @@ class ThreadsController extends Controller
     }
 
     /**
+     * Update the thread.
+     *
+     * @param string $channel
+     * @param Thread $thread
+     * @return \Iluminate\Http\Response
+     */
+    public function update($channel, Thread $thread)
+    {
+        $this->authorize('update', $thread);
+
+        $thread->update(request()->validate([
+            'title' => 'required|spamfree',
+            'body'  => 'required|spamfree',
+        ]));
+
+        return $thread;
+    }
+
+    /**
      * Delete the thread and their replies.
      *
      * @param string $channel

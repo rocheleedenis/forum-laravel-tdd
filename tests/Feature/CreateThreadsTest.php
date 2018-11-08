@@ -55,7 +55,10 @@ class CreateThreadsTest extends TestCase
     **/
     public function an_user_can_create_new_forum_threads()
     {
-        $response = $this->publishThread(['title' => 'Some title', 'body' => 'Some body.']);
+        $response = $this->publishThread([
+            'title' => 'Some title',
+            'body'  => 'Some body.'
+        ]);
 
         $this->get($response->headers->get('Location'))
             ->assertSee('Some title')
@@ -190,6 +193,9 @@ class CreateThreadsTest extends TestCase
 
         $thread = make('App\Thread', $overredes);
 
-        return $this->post(route('threads'), $thread->toArray() + ['g-recaptcha-response' => 'test']);
+        return $this->post(
+            route('threads'),
+            $thread->toArray() + ['g-recaptcha-response' => 'test']
+        );
     }
 }

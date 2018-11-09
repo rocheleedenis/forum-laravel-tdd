@@ -7,13 +7,13 @@ use App\Http\Controllers\Controller;
 class UsersAvatarController extends Controller
 {
     /**
-     * Save a new avatar for the signed user.
+     * Store a new user avatar.
      *
      * @return
      */
     public function store()
     {
-        $this->validate(request(), [
+        request()->validate([
             'avatar' => ['required', 'image']
         ]);
 

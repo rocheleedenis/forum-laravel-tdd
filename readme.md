@@ -19,6 +19,9 @@ php artisan key:generate
 
 # Gerar banco de dados
 php artisan migrate:refresh --seed
+
+# Exportar seus threads já criados para Algolia
+php artisan scout:import "App\Thread"
 ```
 
 #### Instale o Redis

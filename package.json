@@ -20,10 +20,13 @@
         "vue": "^2.5.7"
     },
     "dependencies": {
+        "ajv": "^6.5.5",
         "at.js": "^1.5.4",
+        "imagemin": "^5.3.1",
         "jquery.caret": "^0.3.1",
         "moment": "^2.22.2",
         "npm": "^6.4.0",
+        "vue-instantsearch": "^1.7.0",
         "vue-template-compiler": "^2.5.16"
     }
 }

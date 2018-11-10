@@ -5,9 +5,12 @@ namespace Tests\Unit;
 use Tests\TestCase;
 use App\Notifications\ThreadWasUpdated;
 use Illuminate\Support\Facades\Notification;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class ThreadTest extends TestCase
 {
+    use DatabaseMigrations;
+
     public function setUp()
     {
         parent::setUp();

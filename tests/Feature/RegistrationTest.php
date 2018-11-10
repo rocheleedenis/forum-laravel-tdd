@@ -5,9 +5,12 @@ namespace Tests\Feature;
 use Tests\TestCase;
 use App\Mail\PleaseConfirmYourEmail;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class RegistrationTest extends TestCase
 {
+    use DatabaseMigrations;
+
     /**
      * @test
      */

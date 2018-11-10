@@ -4,9 +4,12 @@ namespace Tests\Feature;
 
 use App\Trending;
 use Tests\TestCase;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class TrendingThreadsTest extends TestCase
 {
+    use DatabaseMigrations;
+
     protected function setUp()
     {
         parent::setUp();

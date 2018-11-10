@@ -7,7 +7,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class UpdateThreadsTest extends TestCase
 {
-    // use RefreshDatabase;
+    use RefreshDatabase;
 
     public function setUp()
     {

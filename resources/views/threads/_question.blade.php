@@ -2,13 +2,13 @@
 <div class="card" v-if="editing">
     <div class="card-header">
         <h5 class="level">
-            <input type="text" class="form-control" value="{{ $thread->title }}">
+            <input type="text" class="form-control" v-model="form.title">
         </h5>
     </div>
 
     <div class="card-body">
         <div class="form-group">
-            <textarea class="form-control">{{ $thread->body }}</textarea>
+            <textarea class="form-control" v-model="form.body"></textarea>
         </div>
     </div>
 
@@ -17,10 +17,10 @@
             <button class="btn btn-info btn-sm" v-if="!editing" @click="editing = true">
                 Edit
             </button>
-            <button class="btn btn-primary btn-sm" v-if="editing">
+            <button class="btn btn-primary btn-sm" v-if="editing" @click="update">
                 Update
             </button>
-            <button class="btn btn-default btn-sm ml-2" @click="editing = false">
+            <button class="btn btn-default btn-sm ml-2" @click="resetForm">
                 Cancel
             </button>
 
@@ -40,7 +40,7 @@
 {{-- Viewing the question. --}}
 <div class="card" v-else>
     <div class="card-header">
-        <h5 class="level">
+        <h6 class="level">
             <img class="mr-2" src="{{ $thread->creator->avatar_path }}" with="30" height="30">
 
             <div class="flex">
@@ -48,16 +48,16 @@
                     {{ $thread->creator->name }}
                 </a> posted:
 
-                <strong>{{ $thread->title }}</strong>
+                <strong v-text="title"></strong>
             </div>
-        </h5>
+        </h6>
     </div>
 
     <div class="card-body">
-        <div class="body">{{ $thread->body }}</div>
+        <div class="body" v-text="body"></div>
     </div>
 
-    <div class="card-footer">
+    <div class="card-footer" v-if="authorize('owns', thread)">
         <button class="btn btn-default btn-sm" @click="editing = true">
             Edit
         </button>

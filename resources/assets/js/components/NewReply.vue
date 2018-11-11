@@ -1,18 +1,16 @@
 <template>
 	<div>
-		<div class="mx-3" v-if="signedIn">
-            <div class="form-group row">
-                <textarea name="body"
-	                    class="form-control"
-	                    placeholder="Have something to say?"
-	                    rows="5"
-	                    required
-	                    v-model="body"
-	                    id="body"></textarea>
+		<div v-if="signedIn">
+            <div class="form-group">
+                <wysiwyg
+                		name="body"
+                		v-model="body"
+                		placeholder="Have something to say?"
+                		:shouldClear="completed"></wysiwyg>
             </div>
+
             <button type="submit"
 	            	class="btn btn-default"
-	            	style="margin: 0 -15px;"
 	            	@click="addReply">Post</button>
 		</div>
         <p v-else>
@@ -28,7 +26,8 @@
 	export default {
 		data() {
 			return {
-				body: ''
+				body: '',
+				completed: false
 			};
 		},
 
@@ -54,6 +53,7 @@
 					})
 					.then(({data}) => {
 						this.body = '';
+						this.completed = true;
 
 						flash('Your reply has been posted.');
 

@@ -24,6 +24,8 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/trix/1.0.0/trix.css">
+
     <style>
         body { margin-bottom: 100px; }
         .level { display: flex; align-items: center; }

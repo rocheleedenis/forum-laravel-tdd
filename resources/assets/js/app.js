@@ -21,6 +21,7 @@ Vue.component('paginator', require('./components/Paginator.vue'));
 Vue.component('avatar-form', require('./components/AvatarForm.vue'));
 Vue.component('user-notifications', require('./components/UserNotifications.vue'));
 Vue.component('image-upload', require('./components/ImageUpload.vue'));
+Vue.component('wysiwyg', require('./components/Wysiwyg.vue'));
 
 const app = new Vue({
     el: '#app'

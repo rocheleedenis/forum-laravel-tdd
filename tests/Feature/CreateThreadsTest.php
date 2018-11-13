@@ -123,7 +123,7 @@ class CreateThreadsTest extends TestCase
     }
 
     /**
-    * @test
+    *
     **/
     public function a_thread_requires_recaptcha_verification()
     {

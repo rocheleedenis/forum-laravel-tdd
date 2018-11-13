@@ -1,6 +1,6 @@
 <h1 align="center">Forum With Laravel and TDD</h1>
 
-[![Build Status](https://travis-ci.org/rocheleedenis/forum-laravel-with-tdd.svg?branch=master)](https://travis-ci.org/rocheleedenis/forum-laravel-with-tdd)
+[![Build Status](https://travis-ci.org/rocheleedenis/forum-laravel-tdd.svg?branch=master)](https://travis-ci.org/rocheleedenis/forum-laravel-tdd)
 
 Aplicação criada a partir do curso [<b>Let's Build A Forum with Laravel and TDD</b>](https://laracasts.com/series/lets-build-a-forum-with-laravel).
 
